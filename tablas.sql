@@ -16,7 +16,8 @@ CREATE TABLE usuarios (
     fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
     racha_dias INT DEFAULT 0,
     monedas INT DEFAULT 0,
-    amigos INT DEFAULT 0
+    amigos INT DEFAULT 0,
+    puntaje INT DEFAULT 0
 );
 
 -- 2. Tabla temario
@@ -51,11 +52,11 @@ CREATE TABLE progresos (
 DROP TABLE IF EXISTS recompensas;
 CREATE TABLE recompensas (
     id_recompensa INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT,
+   
     tipo_recompensa ENUM('monedas', 'bonus_juego', 'medalla') NOT NULL,
-    cantidad INT DEFAULT 0,
+    cantidad INT,
     fecha_obtencion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+   
 );
 
 -- 5. Tabla logros
@@ -136,4 +137,49 @@ CREATE TABLE sesiones (
     inicio_sesion DATETIME DEFAULT CURRENT_TIMESTAMP,
     fin_sesion DATETIME,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+);
+
+-- 12.Tabla de Mundo
+-- Esta tabla almacenara el progreso de los mundos del usuario.
+DROP TABLE IF EXISTS mundos;
+CREATE TABLE mundos (
+    id_mundo INT AUTO_INCREMENT PRIMARY KEY,
+    mundo_completado BOOLEAN DEFAULT FALSE
+);
+
+-- 13. Tabla de Niveles
+-- Esta tabla almacenara el progreso de los niveles del usuario.
+DROP TABLE IF EXISTS niveles;
+CREATE TABLE niveles (
+    id_nivel INT AUTO_INCREMENT PRIMARY KEY,
+    id_mundo INT,
+    nivel_completado BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (id_mundo) REFERENCES mundos(id_mundo)
+);
+
+DROP TABLE IF EXISTS mundos_recompensas;
+CREATE TABLE mundos_recompensas (
+    id_mundo INT,
+    id_recompensa INT,
+    FOREIGN KEY (id_mundo) REFERENCES mundos(id_mundo)
+    FOREIGN KEY (id_recompensa) REFERENCES recompensas(id_recompensa)
+    PRIMARY KEY (id_mundo, id_recompensa)
+);
+
+DROP TABLE IF EXISTS niveles_recompensas;
+CREATE TABLE niveles_recompensas (
+    id_nivel INT,
+    id_recompensa INT,
+    FOREIGN KEY (id_nivel) REFERENCES niveles(id_nivel)
+    FOREIGN KEY (id_recompensa) REFERENCES recompensas(id_recompensa)
+    PRIMARY KEY (id_nivel, id_recompensa)
+);
+
+DROP TABLE IF EXISTS usuario_mundo;
+CREATE TABLE usuario_mundo (
+    id_usuario INT,
+    id_mundo INT,
+    FORIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+    FOREIGN KEY (id_mundo) REFERENCES mundos(id_mundo)
+    PRIMARY KEY (id_mundo, id_usuario)
 );
