@@ -66,3 +66,43 @@ BEGIN
 END //
 
 DELIMITER ;
+
+-- Trigger para asignar monedas a usuario por nivel completado
+DROP TRIGGER IF EXISTS recompensas_monedas_usuario_nivel;
+DELIMITER //
+
+CREATE TRIGGER recompensas_monedas_usuario_nivel
+AFTER UPDATE ON niveles_usuarios
+FOR EACH ROW
+BEGIN
+  IF ((OLD.nivel_completado = FALSE) AND (NEW.nivel_completado = TRUE)) THEN
+    IF (SELECT cantidad FROM niveles_recompensas WHERE id_nivel = NEW.id_nivel AND id_recompensa = 1) THEN
+        UPDATE usuarios
+        SET
+          monedas = monedas + (SELECT cantidad FROM niveles_recompensas WHERE id_nivel = NEW.id_nivel AND id_recompensa = 1)
+        WHERE id_usuario = NEW.id_usuario;
+    END IF;
+  END IF;
+END //
+
+DELIMITER ;
+
+-- Trigger para asignar puntos a usuario por nivel completado
+DROP TRIGGER IF EXISTS recompensas_puntos_usuario_nivel;
+DELIMITER //
+
+CREATE TRIGGER recompensas_puntos_usuario_nivel
+AFTER UPDATE ON niveles_usuarios
+FOR EACH ROW
+BEGIN
+  IF ((OLD.nivel_completado = FALSE) AND (NEW.nivel_completado = TRUE)) THEN
+    IF (SELECT cantidad FROM niveles_recompensas WHERE id_nivel = NEW.id_nivel AND id_recompensa = 2) THEN
+        UPDATE usuarios
+        SET
+          puntos = puntos + (SELECT cantidad FROM niveles_recompensas WHERE id_nivel = NEW.id_nivel AND id_recompensa = 2)
+        WHERE id_usuario = NEW.id_usuario;
+    END IF;
+  END IF;
+END //
+
+DELIMITER ;

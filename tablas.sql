@@ -1,6 +1,6 @@
 -- USE db_foxsavvy
 
--- Tabla almacenar la información de los usuarios registrados en la plataforma.
+-- Tabla para la información de los usuarios registrados en la plataforma.
 DROP TABLE IF EXISTS usuarios;
 CREATE TABLE usuarios (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
@@ -9,10 +9,10 @@ CREATE TABLE usuarios (
     email VARCHAR(100) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
-    racha_dias INT DEFAULT 0,
     monedas INT DEFAULT 0,
+    puntos INT DEFAULT 0,
     amigos INT DEFAULT 0,
-    puntaje INT DEFAULT 0
+    racha_dias INT DEFAULT 0
 );
 
 -- Tabla para las recompensas que los usuarios pueden obtener al completar mundos o niveles.
@@ -20,9 +20,7 @@ CREATE TABLE usuarios (
 DROP TABLE IF EXISTS recompensas;
 CREATE TABLE recompensas (
     id_recompensa INT AUTO_INCREMENT PRIMARY KEY,
-    tipo_recompensa ENUM('monedas', 'puntos') NOT NULL,
-    cantidad INT,
-    fecha_obtencion DATETIME DEFAULT CURRENT_TIMESTAMP
+    tipo_recompensa ENUM('monedas', 'puntos') NOT NULL
 );
 
 -- Tabla para los logros que los usuarios pueden obtener.
@@ -34,7 +32,7 @@ CREATE TABLE logros (
     imagen_url VARCHAR(255)
 );
 
--- Tabla relaciona los logros con los usuarios que los han obtenido.
+-- Tabla para los logros que los usuarios  han obtenido.
 DROP TABLE IF EXISTS logros_usuarios;
 CREATE TABLE logros_usuarios (
     id_usuario INT,
@@ -45,8 +43,7 @@ CREATE TABLE logros_usuarios (
     PRIMARY KEY (id_usuario, id_logro)
 );
 
--- 8. Tabla amigos
--- Esta tabla manejará las relaciones de amistad entre los usuarios.
+-- Tabla para las relaciones de amistad entre los usuarios.
 DROP TABLE IF EXISTS amigos;
 CREATE TABLE amigos (
     id_solicitante INT,
@@ -58,7 +55,7 @@ CREATE TABLE amigos (
     CONSTRAINT check_amigo_id CHECK (id_solicitante <> id_receptor)
 );
 
--- Tabla almacena los ítems que los usuarios pueden comprar con sus monedas.
+-- Tabla para los ítems que los usuarios pueden comprar con sus monedas.
 DROP TABLE IF EXISTS tienda;
 CREATE TABLE tienda (
     id_item INT AUTO_INCREMENT PRIMARY KEY,
@@ -68,7 +65,7 @@ CREATE TABLE tienda (
     tipo_item ENUM('minijuego', 'buff', 'decoracion') NOT NULL
 );
 
--- Tabla registra las compras realizadas por los usuarios en la tienda.
+-- Tabla para las compras realizadas por los usuarios en la tienda.
 DROP TABLE IF EXISTS compras;
 CREATE TABLE compras (
     id_compra INT AUTO_INCREMENT PRIMARY KEY,
@@ -79,7 +76,7 @@ CREATE TABLE compras (
     FOREIGN KEY (id_item) REFERENCES tienda(id_item)
 );
 
--- Tabla registra el tiempo de sesión de los usuarios.
+-- Tabla para el tiempo de sesión de los usuarios.
 DROP TABLE IF EXISTS sesiones;
 CREATE TABLE sesiones (
     id_usuario INT,
@@ -90,19 +87,18 @@ CREATE TABLE sesiones (
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 );
 
--- Tabla almacenara el progreso de los mundos del usuario.
+-- Tabla para el progreso de los mundos del usuario.
 DROP TABLE IF EXISTS mundos;
 CREATE TABLE mundos (
     id_mundo INT AUTO_INCREMENT PRIMARY KEY,
-    mundo_completado BOOLEAN DEFAULT FALSE
+    nombre_mundo TEXT NOT NULL
 );
 
--- Tabla almacenara el progreso de los niveles del usuario.
+-- Tabla para el progreso de los niveles del usuario.
 DROP TABLE IF EXISTS niveles;
 CREATE TABLE niveles (
     id_nivel INT AUTO_INCREMENT PRIMARY KEY,
     id_mundo INT,
-    nivel_completado BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (id_mundo) REFERENCES mundos(id_mundo)
 );
 
@@ -111,6 +107,7 @@ DROP TABLE IF EXISTS mundos_recompensas;
 CREATE TABLE mundos_recompensas (
     id_mundo INT,
     id_recompensa INT,
+    cantidad INT,
     FOREIGN KEY (id_mundo) REFERENCES mundos(id_mundo),
     FOREIGN KEY (id_recompensa) REFERENCES recompensas(id_recompensa),
     PRIMARY KEY (id_mundo, id_recompensa)
@@ -121,17 +118,30 @@ DROP TABLE IF EXISTS niveles_recompensas;
 CREATE TABLE niveles_recompensas (
     id_nivel INT,
     id_recompensa INT,
+    cantidad INT,
     FOREIGN KEY (id_nivel) REFERENCES niveles(id_nivel),
     FOREIGN KEY (id_recompensa) REFERENCES recompensas(id_recompensa),
     PRIMARY KEY (id_nivel, id_recompensa)
 );
 
 -- Tabla intermedia para usuarios y mundos.
-DROP TABLE IF EXISTS usuario_mundo;
-CREATE TABLE usuario_mundo (
-    id_usuario INT,
+DROP TABLE IF EXISTS mundos_usuarios;
+CREATE TABLE mundos_usuarios (
     id_mundo INT,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
+    id_usuario INT,
+    mundo_completado BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (id_mundo) REFERENCES mundos(id_mundo),
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
     PRIMARY KEY (id_mundo, id_usuario)
+);
+
+-- Tabla intermedia para usuarios y niveles.
+DROP TABLE IF EXISTS niveles_usuarios;
+CREATE TABLE niveles_usuarios (
+    id_nivel INT,
+    id_usuario INT,
+    nivel_completado BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (id_nivel) REFERENCES niveles(id_nivel),
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
+    PRIMARY KEY (id_nivel, id_usuario)
 );
