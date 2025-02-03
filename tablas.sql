@@ -1,4 +1,5 @@
--- USE db_foxsavvy
+-- CREATE DATABASE db_foxsavvy;
+-- USE db_foxsavvy;
 
 -- Tabla para la información de los usuarios registrados en la plataforma.
 DROP TABLE IF EXISTS usuarios;

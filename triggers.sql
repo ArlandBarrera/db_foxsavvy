@@ -2,8 +2,6 @@
 
 -- TODO:
 -- Aumentar la racha de dias al entrar a la cuenta por dia.
--- Aumentar las monedas del usuario tras recibir recompensa
--- Aumentar los puntos del usuario tras recibir recompensa
 
 -- Trigger para comprobar las monedas del usuario al momento de comprar
 DROP TRIGGER IF EXISTS check_monedas_compra;
@@ -52,7 +50,7 @@ END //
 
 DELIMITER ;
 
--- Trigger para aumentar la cantidad de amigos de un usuario receptor de una solicitud
+-- Trigger para aumentar la cantidad de amigos de un usuario solicitante de una solicitud
 DROP TRIGGER IF EXISTS inc_amigos_usuario_solicitante;
 DELIMITER //
 

@@ -1,6 +1,6 @@
 -- USE db_foxsavvy;
 
--- consultas desde server
+-- Consultas desde server
 -- |
 -- |
 -- \/
@@ -31,4 +31,4 @@ WHERE mundo_completado = TRUE;
 -- ^
 -- |
 -- |
--- consultas desde server
+-- Consultas desde server
