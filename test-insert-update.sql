@@ -1,12 +1,21 @@
 -- USE db_foxsavvy;
 
-INSERT INTO usuarios(nombre_usuario, apellido_usuario, email, password_hash, monedas) VALUES
+SELECT * FROM usuarios;
+SELECT * FROM tienda;
+SELECT * FROM compras;
+SELECT * FROM mundos;
+SELECT * FROM niveles;
+SELECT * FROM recompensas;
+SELECT * FROM niveles_usuarios;
+SELECT * FROM niveles_recompensas;
+
+INSERT INTO usuarios(nombre_usuario, apellido_usuario, email, contraseña, monedas) VALUES
 ('Pedro', 'Kantor', 'rynn@imperium.com', 'abc', 0),
 ('Iskandar', 'Khayon', 'prospero@maledictum.com', '123', 11),
 ('Tarik', 'Torgaddon', 'luna@imperium.com', '123', 33);
 
 -- -----------------------------------------------------------------------------
--- TEST: tienda, compras y usuarios
+-- TEST: tienda, compras y usuarios. import('insert-datos-vitales.tienda')
 -- restar monedas de un usuario al realizar una compra en la tienda
 -- -----------------------------------------------------------------------------
 
@@ -29,7 +38,7 @@ SELECT * FROM usuarios;
 -- asignar a cada usuario su amigo correspondiente (solicitante, receptor)
 -- -----------------------------------------------------------------------------
 
-INSERT INTO amigos(id_solicitante, id_receptor) VALUES (2, 3);
+INSERT INTO amigos(id_solicitante, id_receptor) VALUES (1, 2);
 
 SELECT * FROM amigos;
 SELECT * FROM usuarios;
@@ -40,7 +49,7 @@ SELECT * FROM usuarios;
 -- -----------------------------------------------------------------------------
 
 -- -----------------------------------------------------------------------------
--- TEST: recompensas por niveles y usuarios
+-- TEST: recompensas por niveles y usuarios. import('insert-datos-vitales.*')
 -- al completar un nivel se le asignar las recompensas al usuario
 -- -----------------------------------------------------------------------------
 
@@ -53,13 +62,13 @@ INSERT INTO recompensas (tipo_recompensa) VALUES ('monedas'), ('puntos');
 INSERT INTO niveles_usuarios (id_nivel, id_usuario) VALUES
 (1, 1),
 (2, 1),
-(3, 1);
+(3, 1),
+(3, 3);
 
 INSERT INTO niveles_recompensas (id_nivel, id_recompensa, cantidad) VALUES
 (1, 1, 20),
 (1, 2, 100),
-(2, 1, 60),
-(3, 2, 300);
+(2, 1, 60);
 
 UPDATE niveles_usuarios
 SET nivel_completado = TRUE
@@ -76,4 +85,36 @@ SELECT * FROM usuarios;
 -- -----------------------------------------------------------------------------
 -- FIN TEST: recompensas por niveles y usuarios
 -- RESULTADOS: al usuario con id(?) se le asignan las recompensas :)
+-- -----------------------------------------------------------------------------
+
+-- -----------------------------------------------------------------------------
+-- TEST: logros y usuarios. import('logros.logros')
+-- insertar y verificar los logros de un usuario
+-- -----------------------------------------------------------------------------
+
+INSERT INTO logros (nombre_logro, descripcion, imagen_url) VALUES
+('Primer Paso', 'Completa el nivel 1 del Mundo 1.', '--'),
+('Explorador del Claro del Ahorro', 'Completa todos los niveles del Mundo 1.', '--');
+
+INSERT INTO logros_usuarios (id_logro, id_usuario) VALUES
+(1, 1),
+(2, 1),
+(1, 2);
+
+SELECT * FROM logros;
+SELECT * FROM logros_usuarios;
+
+-- Listar logros
+SELECT id_logro, id_usuario
+FROM logros_usuarios
+WHERE id_usuario = 1;
+
+-- Contar logros
+SELECT COUNT(id_logro) AS cantidad_logros
+FROM logros_usuarios
+WHERE id_usuario = 2;
+
+-- -----------------------------------------------------------------------------
+-- FIN TEST: logros y usuarios.
+-- RESULTADOS: al usuario con id(?) se le asignan las logros :)
 -- -----------------------------------------------------------------------------

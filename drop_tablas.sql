@@ -1,5 +1,7 @@
 -- USE db_foxsavvy;
 
+-- Realizar DROP en este orden!
+
 -- Tablas intermedias
 DROP TABLE IF EXISTS compras;
 DROP TABLE IF EXISTS logros_usuarios;

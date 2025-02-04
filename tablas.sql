@@ -8,7 +8,7 @@ CREATE TABLE usuarios (
     nombre_usuario VARCHAR(50) NOT NULL,
     apellido_usuario VARCHAR(50) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
+    contraseña VARCHAR(255) NOT NULL,
     fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
     monedas INT DEFAULT 0,
     puntos INT DEFAULT 0,
@@ -17,7 +17,6 @@ CREATE TABLE usuarios (
 );
 
 -- Tabla para las recompensas que los usuarios pueden obtener al completar mundos o niveles.
--- TODO: revisar logica de recompensas.
 DROP TABLE IF EXISTS recompensas;
 CREATE TABLE recompensas (
     id_recompensa INT AUTO_INCREMENT PRIMARY KEY,
@@ -36,12 +35,12 @@ CREATE TABLE logros (
 -- Tabla para los logros que los usuarios  han obtenido.
 DROP TABLE IF EXISTS logros_usuarios;
 CREATE TABLE logros_usuarios (
-    id_usuario INT,
     id_logro INT,
+    id_usuario INT,
     fecha_obtencion DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
     FOREIGN KEY (id_logro) REFERENCES logros(id_logro),
-    PRIMARY KEY (id_usuario, id_logro)
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
+    PRIMARY KEY (id_logro, id_usuario)
 );
 
 -- Tabla para las relaciones de amistad entre los usuarios.
@@ -88,14 +87,14 @@ CREATE TABLE sesiones (
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 );
 
--- Tabla para el progreso de los mundos del usuario.
+-- Tabla para los mundos.
 DROP TABLE IF EXISTS mundos;
 CREATE TABLE mundos (
     id_mundo INT AUTO_INCREMENT PRIMARY KEY,
     nombre_mundo TEXT NOT NULL
 );
 
--- Tabla para el progreso de los niveles del usuario.
+-- Tabla para los niveles y su respectivo mundo.
 DROP TABLE IF EXISTS niveles;
 CREATE TABLE niveles (
     id_nivel INT AUTO_INCREMENT PRIMARY KEY,
@@ -125,7 +124,7 @@ CREATE TABLE niveles_recompensas (
     PRIMARY KEY (id_nivel, id_recompensa)
 );
 
--- Tabla intermedia para usuarios y mundos.
+-- Tabla intermedia para mundos y usuarios.
 DROP TABLE IF EXISTS mundos_usuarios;
 CREATE TABLE mundos_usuarios (
     id_mundo INT,
@@ -136,7 +135,7 @@ CREATE TABLE mundos_usuarios (
     PRIMARY KEY (id_mundo, id_usuario)
 );
 
--- Tabla intermedia para usuarios y niveles.
+-- Tabla intermedia para niveles y usuarios.
 DROP TABLE IF EXISTS niveles_usuarios;
 CREATE TABLE niveles_usuarios (
     id_nivel INT,

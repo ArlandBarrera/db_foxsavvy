@@ -2,10 +2,16 @@
 
 -- Operaciones INSERT y UPDATE pensadas para ser realizadas desde el server
 
--- INSERT/UPDATE desde servidor
--- |
--- |
--- \/
+-- -----------------------------------------------------------------------------
+-- Insertar nuevo usuario. `?` es un simbolo representativo.
+-- -----------------------------------------------------------------------------
+
+INSERT INTO usuarios(nombre_usuario, apellido_usuario, email, contraseña) VALUES
+(?, ?, ?, ?);
+
+-- -----------------------------------------------------------------------------
+-- Tiempo de Log in y Log out. Calcular tiempo total en el servidor.
+-- -----------------------------------------------------------------------------
 
 -- Log in | INSERT inicio de sesion
 INSERT INTO sesiones (id_usuario, fecha, tiempo_login)
@@ -21,19 +27,18 @@ SET tiempo_total = tiempo_total + TIMESTAMPDIFF(SECOND,
 WHERE id_usuario = id_usuario_server 
 AND fecha = CURDATE();
 
--- UPDATE nivel_completado al terminar un nivel
+-- -----------------------------------------------------------------------------
+-- UPDATE nivel/mundo estado a completado al ser completado por un usuario.
+-- -----------------------------------------------------------------------------
+
+-- nivel
 UPDATE niveles_usuarios
 SET nivel_completado = TRUE
 WHERE id_nivel = id_nivel_server
 AND id_usuario = id_usuario_server;
 
--- UPDATE mundo_completado al terminar un mundo
+-- mundo
 UPDATE mundos_usuarios
 SET mundo_completado = TRUE
 WHERE id_mundo = id_mundo_server
 AND id_usuario = id_usuario_server;
-
--- ^
--- |
--- |
--- FIN INSERT/UPDATE desde server
