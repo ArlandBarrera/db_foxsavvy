@@ -1,4 +1,4 @@
-# Base de Datos para la aplicación web Foxsavvy
+# ⛁ Base de Datos para la aplicación web Foxsavvy
 
 El objetivo es enseñar a niños sobre finanzas.
 
@@ -7,7 +7,7 @@ El objetivo es enseñar a niños sobre finanzas.
 * 💻 Fácil de entender y utilizar.
 * 🎨 Paleta de colores amigable.
 
-## Contenido
+## 📝 Contenido
 
 La aplicacón consta de temas variados y sencillos para aprender sobre finanzas.
 
