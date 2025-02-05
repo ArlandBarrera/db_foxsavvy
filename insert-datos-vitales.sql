@@ -9,6 +9,12 @@
 INSERT INTO tienda(nombre_item, descripcion, precio_monedas, tipo_item) VALUES
 ('eliminar opcion', 'Elimina una opcion incorrecta aleatoria', 10, 'buff');
 
+INSERT INTO tienda (nombre_item, descripcion, precio_monedas, tipo_item) VALUES
+('Multiplicador de Monedas x2', 'Duplica las monedas obtenidas en el siguiente minijuego.', 100, 'buff'),
+('Multiplicador de Puntos x2', 'Duplica los puntos obtenidos en el siguiente minijuego.', 100, 'buff'),
+('Escudo Anti-Gastos', 'Evita perder monedas en el siguiente minijuego.', 150, 'buff'),
+('Tiempo Extra', 'Añade 2 minuto extra al tiempo de los minijuegos.', 120, 'buff'),
+('Dado Dorado', 'Un casino en la palma de tu mano.', 200, 'gambling'), 
 -- -----------------------------------------------------------------------------
 -- Logros
 -- -----------------------------------------------------------------------------
