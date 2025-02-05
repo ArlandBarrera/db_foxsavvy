@@ -18,10 +18,8 @@ INSERT INTO logros (nombre_logro, descripcion, imagen_url) VALUES
 ('Primer Paso', 'Completa el nivel 1 del Mundo 1.', '--'),
 ('Explorador del Claro del Ahorro', 'Completa todos los niveles del Mundo 1.', '--'),
 -- Mundo 2
-('Nivel Intermedio', 'Completa el nivel 5 de cualquier mundo.', '--'),
 ('Explorador de la Aldea del Presupuesto', 'Completa todos los niveles del Mundo 2.', '--'),
 -- Mundo 3
-('Experto en Niveles', 'Completa el último nivel de cualquier mundo.', '--'),
 ('Explorador de la Montaña de las Inversiones', 'Completa todos los niveles del Mundo 3.', '--'),
 -- Todos los mundos
 ('Maestro del Ahorro', 'Completa todos los mundos.', '--'),
