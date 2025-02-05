@@ -1,7 +1,7 @@
 -- CREATE DATABASE db_foxsavvy;
 -- USE db_foxsavvy;
 
--- Tabla para la información de los usuarios registrados en la plataforma.
+-- Tabla para los usuarios registrados en la plataforma.
 DROP TABLE IF EXISTS usuarios;
 CREATE TABLE usuarios (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
@@ -27,8 +27,8 @@ CREATE TABLE recompensas (
 DROP TABLE IF EXISTS logros;
 CREATE TABLE logros (
     id_logro INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_logro VARCHAR(100) NOT NULL,
-    descripcion TEXT,
+    nombre_logro VARCHAR(100) UNIQUE NOT NULL,
+    descripcion VARCHAR(100),
     imagen_url VARCHAR(255)
 );
 
@@ -59,8 +59,8 @@ CREATE TABLE amigos (
 DROP TABLE IF EXISTS tienda;
 CREATE TABLE tienda (
     id_item INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_item VARCHAR(100) NOT NULL,
-    descripcion TEXT,
+    nombre_item VARCHAR(100) UNIQUE NOT NULL,
+    descripcion VARCHAR(100),
     precio_monedas INT NOT NULL,
     tipo_item ENUM('minijuego', 'buff', 'decoracion') NOT NULL
 );
@@ -91,7 +91,7 @@ CREATE TABLE sesiones (
 DROP TABLE IF EXISTS mundos;
 CREATE TABLE mundos (
     id_mundo INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_mundo TEXT NOT NULL
+    nombre_mundo VARCHAR(50) UNIQUE NOT NULL
 );
 
 -- Tabla para los niveles y su respectivo mundo.
@@ -99,6 +99,7 @@ DROP TABLE IF EXISTS niveles;
 CREATE TABLE niveles (
     id_nivel INT AUTO_INCREMENT PRIMARY KEY,
     id_mundo INT,
+    nombre_nivel VARCHAR(50) UNIQUE NOT NULL,
     FOREIGN KEY (id_mundo) REFERENCES mundos(id_mundo)
 );
 
@@ -118,7 +119,7 @@ DROP TABLE IF EXISTS niveles_recompensas;
 CREATE TABLE niveles_recompensas (
     id_nivel INT,
     id_recompensa INT,
-    cantidad INT,
+    cantidad INT, -- DEFAULT: monedas 10, puntos 20
     FOREIGN KEY (id_nivel) REFERENCES niveles(id_nivel),
     FOREIGN KEY (id_recompensa) REFERENCES recompensas(id_recompensa),
     PRIMARY KEY (id_nivel, id_recompensa)

@@ -55,15 +55,16 @@ SELECT * FROM usuarios;
 
 INSERT INTO mundos (nombre_mundo) VALUES ('El claro del ahorro');
 
-INSERT INTO niveles (id_mundo) VALUES (1), (1), (1);
+INSERT INTO niveles (id_mundo, nombre_nivel) VALUES
+(1, 'El secreto de la bellota dorada'),
+(1, 'La madríguera del escondite seguro');
 
 INSERT INTO recompensas (tipo_recompensa) VALUES ('monedas'), ('puntos');
 
 INSERT INTO niveles_usuarios (id_nivel, id_usuario) VALUES
 (1, 1),
 (2, 1),
-(3, 1),
-(3, 3);
+(2, 1);
 
 INSERT INTO niveles_recompensas (id_nivel, id_recompensa, cantidad) VALUES
 (1, 1, 20),
