@@ -55,6 +55,17 @@ CREATE TABLE amigos (
     CONSTRAINT check_amigo_id CHECK (id_solicitante <> id_receptor)
 );
 
+-- Tabla para las relaciones entre padres e hijos.
+DROP TABLE IF EXISTS padres_hijos;
+CREATE TABLE padres_hijos (
+    id_padre INT,
+    id_hijo INT,
+    FOREIGN KEY (id_padre) REFERENCES usuarios(id_usuario),
+    FOREIGN KEY (id_hijo) REFERENCES usuarios(id_usuario),
+    PRIMARY KEY (id_padre, id_hijo),
+    CONSTRAINT check_padre_hijo_id CHECK (id_padre <> id_hijo)
+);
+
 -- Tabla para los ítems que los usuarios pueden comprar con sus monedas.
 DROP TABLE IF EXISTS tienda;
 CREATE TABLE tienda (
